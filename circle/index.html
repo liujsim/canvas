@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>canvas</title>
+  <style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  </style>
+</head>
+<body>
+  <canvas id="process" width="200" height="200" data-process="50"></canvas>
+  <canvas id="score" width="10" height="200" data-process="30"></canvas>
+  <script>
+    (function () {
+      var c = document.getElementById('process');
+      var process = parseInt(c.getAttribute('data-process'));
+      var ctx = c.getContext('2d');
+
+      // 画进度环  起点修改为从 12 点钟方向
+      ctx.beginPath();
+      ctx.moveTo(100, 100);
+      ctx.arc(100, 100, 80, Math.PI * 1.5, Math.PI * (1.5 + 2 * process / 100));
+      ctx.closePath();
+      ctx.fillStyle = '#FF9600';
+      ctx.fill();
+
+      // 画灰色的圆
+      ctx.beginPath();
+      ctx.moveTo(100, 100);
+      ctx.arc(100, 100, 60, Math.PI * 1.5, Math.PI * (1.5 + 2), false);
+      ctx.closePath();
+      ctx.fillStyle = '#F6F6F6';
+      ctx.fill();
+      // 填充文字
+      ctx.font = "bold 20pt Microsoft YaHei";
+      ctx.fillStyle = '#333';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.moveTo(100, 100);
+      ctx.fillText(process + '%', 100, 100);
+      })();
+  </script>
+  <script>
+    (function () {
+      //
+      var score = document.getElementById('score');
+      var process = parseInt(score.getAttribute('data-process'));
+      var ctx = score.getContext('2d');
+      ctx.fillStyle = '#FFB54C';
+      ctx.fillRect(0,0 ,10,200) // allScore
+      ctx.fillStyle = '#B02822';
+      // console.log(score.height * process/100)
+      // ctx.fillRect(0, 0, 10, 200 - process)
+      ctx.fillRect(0, 0, 10, score.height - score.height * process / 100) // currentScore
+    })();
+  </script>
+</body>
+</html>
